@@ -36,6 +36,14 @@ app.post('/api', function (req, res) {
     });
 });
 
+app.put('/api/:id', function (req, res) {
+    var id = req.params.id;
+    db.collection(collection).updateOne({_id: ObjectID(id)}, {$set:req.body}, (err, result) => {
+        if (err) return res.send(500, err);
+        res.sendStatus(200)
+    });
+});
+
 app.delete('/api/:id', function (req, res) {
     var id = req.params.id;
     db.collection(collection).deleteOne({_id: ObjectID(id)}, (err, result) => {
