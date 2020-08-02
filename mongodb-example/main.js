@@ -8,6 +8,7 @@ var db = "mongodb-example";
 var collection = "example-collection";
 
 const bodyParser = require('body-parser');
+const { ObjectID } = require('mongodb');
 
 MongoClient.connect(url, (err, client) => {
     if (err) return console.log(err);
@@ -23,14 +24,22 @@ app.get('/', (req, res) => {
 
 app.get('/api', (req, res) => {
     db.collection(collection).find().toArray((err, results) => {
-        if (err) return console.log(err);
+        if (err) return res.send(500, err);
         res.json(results);
     });
 });
 
 app.post('/api', function (req, res) {
     db.collection(collection).insertOne(req.body, (err, result) => {
-        if (err) return console.log(err)
+        if (err) return res.send(500, err);
+        res.sendStatus(200)
+    });
+});
+
+app.delete('/api/:id', function (req, res) {
+    var id = req.params.id;
+    db.collection(collection).deleteOne({_id: ObjectID(id)}, (err, result) => {
+        if (err) return res.send(500, err);
         res.sendStatus(200)
     });
 });
