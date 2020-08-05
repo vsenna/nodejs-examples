@@ -1,18 +1,17 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
 const port = 3000;
 
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
-var db = "mongodb-example";
-var collection = "example-collection";
-
-const bodyParser = require('body-parser');
-const { ObjectID } = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
+const url = "mongodb://localhost:27017/";
+const dbName = "mongodb-example";
+const collection = "example-collection";
 
 MongoClient.connect(url, (err, client) => {
     if (err) return console.log(err);
-    db = client.db(db);
+    db = client.db(dbName);
 });
 
 app.set('view engine', 'ejs');
