@@ -16,6 +16,11 @@ MongoClient.connect(url, (err, client) => {
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(req, res, next){
+    console.log('Time: ', Date.now());
+    console.log('Request Type: ', req.method);
+    next();
+});
 
 app.get('/', (req, res) => {
     res.render('index.ejs');
